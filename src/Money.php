@@ -356,10 +356,15 @@ final class Money implements \JsonSerializable
             throw new \InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
         }
 
+        $nonNegativeRatios = array_filter($ratios, function($ratio) {
+            return $ratio >= 0;
+        });
+
+        if ($nonNegativeRatios < 0) {
+            throw new \InvalidArgumentException('Cannot allocate to none, ratios must contain at least one non-negative value');
+        }
+
         foreach ($ratios as $key => $ratio) {
-            if ($ratio < 0) {
-                throw new \InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
-            }
             $share = $this->getCalculator()->share($this->amount, $ratio, $total);
             $results[$key] = $this->newInstance($share);
             $remainder = $this->getCalculator()->subtract($remainder, $share);
