@@ -360,7 +360,7 @@ final class Money implements \JsonSerializable
             return $ratio >= 0;
         });
 
-        if ($nonNegativeRatios < 0) {
+        if (count($nonNegativeRatios) === 0) {
             throw new \InvalidArgumentException('Cannot allocate to none, ratios must contain at least one non-negative value');
         }
 
