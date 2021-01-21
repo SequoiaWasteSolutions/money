@@ -352,10 +352,6 @@ final class Money implements \JsonSerializable
         $results = [];
         $total = array_sum($ratios);
 
-        if ($total <= 0) {
-            throw new \InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
-        }
-
         $nonNegativeRatios = array_filter($ratios, function($ratio) {
             return $ratio >= 0;
         });
